@@ -4,8 +4,7 @@ import sys
 import unittest
 import login_client
 
-#url = 'http://192.168.43.2/erp/'
-url = 'http://web.crearo.com/erp/'
+url = 'http://192.168.43.2/erp/'
 
 
 class TestLoginIn(unittest.TestCase):
