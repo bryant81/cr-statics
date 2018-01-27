@@ -1,4 +1,6 @@
 requests>=2.18
 pyecharts>=0.3.1
 demjson>=2.2.4
+xlwt
+xlrd
 

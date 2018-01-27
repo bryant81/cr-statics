@@ -89,11 +89,11 @@ class Employee:
         self.wage_id = SearchKVInJson('WageSerialNumber', infostr)
 
         departments_info = SearchArrayInJson('Departments', infostr)
-        self.employee_id = departments_info['EmployeeDepartmentID'] if hasattr(departments_info, 'EmployeeDepartmentID') else 'Unkown'
-        self.department_name = urllib.parse.unquote(departments_info['DepartmentName']) if hasattr(departments_info, 'DepartmentName') else 'Unkown'
-        self.department_id = departments_info['DepartmentID'] if hasattr(departments_info, 'DepartmentID') else 'Unkown'
-        self.department_title_name = urllib.parse.unquote(departments_info['DepartmentTitleName']) if hasattr(departments_info, 'DepartmentTitleName') else 'Unkown'
-        self.department_title_id =  departments_info['DepartmentTitleID'] if hasattr(departments_info, 'DepartmentTitleID') else 'Unkown'
+        self.employee_id = departments_info['EmployeeDepartmentID'] if 'EmployeeDepartmentID' in departments_info else 'Unkown'
+        self.department_name = urllib.parse.unquote(departments_info['DepartmentName']) if 'DepartmentName' in departments_info else 'Unkown'
+        self.department_id = departments_info['DepartmentID'] if  'DepartmentID' in departments_info else 'Unkown'
+        self.department_title_name = urllib.parse.unquote(departments_info['DepartmentTitleName']) if 'DepartmentTitleName' in departments_info  else 'Unkown'
+        self.department_title_id =  departments_info['DepartmentTitleID'] if 'DepartmentTitleID' in departments_info else 'Unkown'
     
     def __str__(self):
 
@@ -106,6 +106,10 @@ class Employee:
                             self.department_title_name, self.department_title_id)
 
         return common_info + department_info
+
+    def abstract(self):
+        return "{姓名:%s 邮箱:%s 入职:%s 部门:%s 职位:%s}"%(
+                self.name, self.email, self.appoint_date, self.department_name, self.department_title_name)
 
 
 class LoginClient:
@@ -214,7 +218,7 @@ class LoginClient:
         payload['time'] = GetTime()
         response = self.session.get(GenerateURL(self.__url + cur_path, payload), cookies=self.login_cookies)
 
-        return Employee(email, name, base64.b64decode((demjson.decode(response.content))['content']).decode('utf-8'))
+        return Employee(name, email, base64.b64decode((demjson.decode(response.content))['content']).decode('utf-8'))
 
     def get_employee_overtime(self, employee, year):
         """ 获取员工的年度加班累计时间，加班累计补贴金额
@@ -243,13 +247,13 @@ class LoginClient:
         response = self.session.get(GenerateURL(self.__url + cur_path, payload), cookies=self.login_cookies)
         content = response.content.decode('utf-8')
         try:
-            overtime_time = int(SearchKVInJson('TotalSeconds', content))
+            overtime_time = int(SearchKVInJson('TotalSeconds', content))/60
             overtime_money = int(SearchKVInJson('TotalMoney', content))
         except:
             overtime_time = 0
             overtime_money = 0
 
-        return overtime_time, overtime_money
+        return int(overtime_time), overtime_money
     def get_employee_later(self, employee, year):
         """ 获取员工的年度迟到总时间和迟到总次数
         Args:

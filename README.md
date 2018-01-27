@@ -17,7 +17,7 @@ cr-statics handles all strings and files with unicode encoding
 
 ### 获取给定的人员名单的年度各项统计
 
- ./cr-statics.py --url <考勤ERP网址> --login_name <登录用户名> --login_password <登录密码> --input_file <人员名单> --year <统计的年份>
+> usage: cr-statics.py [-h] url username password employee_name employee_email
 
 * 人员名单需要符合json格式，如下:
 > {'Name':'张三', 'Email':'ZhangSan@qq.com'}
