@@ -17,8 +17,11 @@ cr-statics handles all strings and files with unicode encoding
 
 ### 获取给定的人员名单的年度各项统计
 
-> usage: cr-statics.py [-h] url username password employee_name employee_email
+* cr-statics.py
+    * 支持获取员工基本信息
+    * 支持获取加班时间，加班补贴，迟到次数，迟到时间，补签次数的统计
+* xl2charts.py
+    * 支持cr-statics.py产生的报表图形化展示
+    * 支持全公司/研发中心过滤
 
-* 人员名单需要符合json格式，如下:
-> {'Name':'张三', 'Email':'ZhangSan@qq.com'}
 

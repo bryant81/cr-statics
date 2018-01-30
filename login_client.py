@@ -288,7 +288,7 @@ class LoginClient:
                 later_total_count = later_total_count + 1
                 later_total_time = later_total_time + later_time
 
-        return (later_total_time, later_total_count)
+        return (int(later_total_time/60), later_total_count)
 
     def get_employee_remedies(self, employee, year):
         """ 获取员工的年度补打卡次数

@@ -33,6 +33,7 @@ SHEET_OVERTIME_MONEY_INDEX = 3
 SHEET_REMEDIES_COUNT_INDEX = 4
 SHEET_LATER_TIME_INDEX = 5
 SHEET_LATER_COUNT_INDEX = 6
+SHEET_DEPARTMENT_COUNT_INDEX = 7
 
 output_sheet.write(0, SHEET_NAME_INDEX, '姓名')
 output_sheet.write(0, SHEET_EMAIL_INDEX, '邮箱')
@@ -41,9 +42,10 @@ output_sheet.write(0, SHEET_OVERTIME_MONEY_INDEX, '加班补贴/元')
 output_sheet.write(0, SHEET_REMEDIES_COUNT_INDEX, '补签次数/次')
 output_sheet.write(0, SHEET_LATER_TIME_INDEX, '迟到时间/分钟')
 output_sheet.write(0, SHEET_LATER_COUNT_INDEX, '迟到次数/次')
+output_sheet.write(0, SHEET_DEPARTMENT_COUNT_INDEX, '部门')
 
 
-for index in range(1, input_sheet.nrows):
+for index in range(0, input_sheet.nrows):
     items = input_sheet.row(index)
     name = items[0].value
     email = items[1].value
@@ -61,6 +63,8 @@ else:
 
 output_row_index = 1
 
+statics_count = 0
+
 for employee in employees_list:
     name = employee[0]
     email = employee[1]
@@ -74,6 +78,7 @@ for employee in employees_list:
     output_sheet.write(output_row_index, SHEET_OVERTIME_TIME_INDEX, overtime_time)
     output_sheet.write(output_row_index, SHEET_OVERTIME_MONEY_INDEX, overtime_money)
     output_sheet.write(output_row_index, SHEET_REMEDIES_COUNT_INDEX, remedies_count)
+    output_sheet.write(output_row_index, SHEET_DEPARTMENT_COUNT_INDEX, employee_info.department_name)
     
     if args.later_statics:
         later_time, later_count = client.get_employee_later(employee_info, args.year)
@@ -86,5 +91,7 @@ for employee in employees_list:
     output_row_index = output_row_index + 1
     print(employee_info.abstract(), '加班:%s分钟 补贴:%s元 补签:%s次'%(overtime_time, overtime_money, remedies_count), 
             later_info_str)
+
+    statics_count = statics_count + 1
 
 output_workbook.save(args.outputfile) 
