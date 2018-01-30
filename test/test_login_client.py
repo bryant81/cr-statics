@@ -1,8 +1,11 @@
 #!/usr/bin/env python
+
 import sys
+sys.path.append('.')
 
 import unittest
 import login_client
+
 
 url = 'http://192.168.43.2/erp/'
 
@@ -38,9 +41,8 @@ class TestLoginClientGet(unittest.TestCase):
     def setUp(self):
         self.login_client = login_client.LoginClient(url, '郑浩', 'zhenghao')
         self.login_client.login_in()
-
+    
     def test_get_employee_info(self):
-        
         employee = self.login_client.get_employee_info('郑浩', 'zhenghao@crearo.com')
         self.assertNotEqual(employee.attendance_id, 'Unkown')
 
@@ -72,6 +74,12 @@ class TestLoginClientGet(unittest.TestCase):
         later_total_time, later_total_count = self.login_client.get_employee_later(employee, 2017)
         self.assertIsInstance(later_total_time, int)
         self.assertIsInstance(later_total_count, int)
+    
+    def test_get_employee_header_image(self):
+        employee = self.login_client.get_employee_info('xx', 'zhenghao@crearo.com')
+        image = self.login_client.get_employee_header_image(employee)
+        self.assertNotEqual(image.size[0], 0)
+
 
     def tearDown(self):
         self.login_client.login_out()

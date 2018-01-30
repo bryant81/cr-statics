@@ -15,6 +15,7 @@ parser.add_argument('inputfile', type=str, help='the employee need static')
 parser.add_argument('outputfile', type=str, help='the statics datasheet')
 parser.add_argument('year', type=int, help='the year of the statics')
 parser.add_argument('--later-statics', help='include later time & count statics, default no', action="store_true")
+parser.add_argument('--save-header', help='save the header image of employee', action='store_true')
 args = parser.parse_args()
 print(args)
 
@@ -79,6 +80,10 @@ for employee in employees_list:
     output_sheet.write(output_row_index, SHEET_OVERTIME_MONEY_INDEX, overtime_money)
     output_sheet.write(output_row_index, SHEET_REMEDIES_COUNT_INDEX, remedies_count)
     output_sheet.write(output_row_index, SHEET_DEPARTMENT_COUNT_INDEX, employee_info.department_name)
+
+    if args.save_header:
+        header_img = client.get_employee_header_image(employee_info)
+        header_img.save('images/%s.gif'%name)
     
     if args.later_statics:
         later_time, later_count = client.get_employee_later(employee_info, args.year)

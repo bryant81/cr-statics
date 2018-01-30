@@ -20,6 +20,7 @@ cr-statics handles all strings and files with unicode encoding
 * cr-statics.py
     * 支持获取员工基本信息
     * 支持获取加班时间，加班补贴，迟到次数，迟到时间，补签次数的统计
+    * 支持获取头像
 * xl2charts.py
     * 支持cr-statics.py产生的报表图形化展示
     * 支持全公司/研发中心过滤

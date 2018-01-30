@@ -7,6 +7,8 @@ import re
 import datetime
 import urllib
 import base64
+from PIL import Image
+from io import BytesIO
 
 def SearchKVInJson(key, str_json):
     status = re.search(key+':\'(?P<result>[^\']+)', str_json)
@@ -323,3 +325,24 @@ class LoginClient:
             remedies_count = 0
 
         return remedies_count
+
+    def get_employee_header_image(self, employee):
+        """获取员工的头像
+
+        Args:
+            employee: Employee对象，通过get_employee_info返回
+
+        Returns:
+            图像二进制数据
+
+        Raises:
+        """
+        headers={'Accept':'image/png,image/svg+xml,image/*;q=0.8,*/*;q=0.5'}
+        payload = {}
+        cur_path='php/showemployeehoto.php'
+        payload['employeeIdentity'] = employee.email
+        payload['time'] = GetTime()
+        response = self.session.get(GenerateURL(self.__url + cur_path, payload), cookies=self.login_cookies, headers=headers)
+        return Image.open(BytesIO(response.content))
+
+
