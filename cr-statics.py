@@ -17,7 +17,6 @@ parser.add_argument('year', type=int, help='the year of the statics')
 parser.add_argument('--later-statics', help='include later time & count statics, default no', action="store_true")
 parser.add_argument('--save-header', help='save the header image of employee', action='store_true')
 args = parser.parse_args()
-print(args)
 
 employees_list = []
 

@@ -345,4 +345,41 @@ class LoginClient:
         response = self.session.get(GenerateURL(self.__url + cur_path, payload), cookies=self.login_cookies, headers=headers)
         return Image.open(BytesIO(response.content))
 
+    def get_employee_errands(self, employee, year):
+        """获取员工出差记录
+        Args:
+            employee: Employee对象，通过get_employee_info返回值得到
+            year: 需要统计的年份
+
+        Returns:
+            [(出差时间，出差是由)...]
+
+        Raises:
+        """
+        startdate = '%d-%d-%d'%(year-1, 12, 24)
+        enddate = '%d-%d-%d'%(year, 12, 25)
+
+        cur_path='php/attendancefs.php'
+        payload = {}
+        payload['action'] = 'GetErrandsByAttendanceIDAndDate'
+        payload['attendanceid'] = employee.attendance_id
+        payload['startdate'] = startdate
+        payload['enddate'] = enddate
+        payload['time'] = GetTime()
+        response = self.session.get(GenerateURL(self.__url + cur_path, payload), cookies=self.login_cookies)
+        
+        errands_list = []
+
+        try:
+            array_list = SearchArraysInJson('content', response.text)
+            for item in array_list:
+                time = int(item['ErrandTimeSpan'])/(60*60)
+                remark = urllib.parse.unquote(item['Remark'])
+                errands_list.append((time, remark))
+        except:
+            errands_list = []
+
+        return errands_list
+
+
 

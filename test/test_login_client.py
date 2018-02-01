@@ -80,6 +80,9 @@ class TestLoginClientGet(unittest.TestCase):
         image = self.login_client.get_employee_header_image(employee)
         self.assertNotEqual(image.size[0], 0)
 
+    def test_get_employee_arrands(self):
+        employee = self.login_client.get_employee_info('xx', 'zhenghao@crearo.com')
+        arrands_list = self.login_client.get_employee_errands(employee, 2017)
 
     def tearDown(self):
         self.login_client.login_out()
