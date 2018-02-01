@@ -25,4 +25,5 @@ cr-statics handles all strings and files with unicode encoding
     * 支持cr-statics.py产生的报表图形化展示
     * 支持全公司/研发中心过滤
 
-
+* cr-errands.py
+    * 支持出差频率和时间统计
